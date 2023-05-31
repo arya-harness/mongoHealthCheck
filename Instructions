@@ -1,13 +1,12 @@
 1. Create a health check that works locally using mongosh[Done, verified using public url in local, private url in cluster]
 2. We have to create a docker image that only has mongosh. -> name it as mongoHealthCheck Container
 3. then we have to create a sidecar to deploy this docker image and once the sidecar stops(it means it is healthy), the other container will start
-
-2nd:
+----
+2:
 we just require a docker image with MongoSh, thats all. we can choose any platform(Debian preferred)
 Added the dockerfile as reference, needs to be evaluated
-
-
 ---
+3:
 We should not use init containers as it wont be viable for istio-proxy:
 ref: https://medium.com/@marko.luksa/delaying-application-start-until-sidecar-is-ready-2ec2d21a7b74
 For 3rd, we need to add these block of code whereever mongo is being used: 
