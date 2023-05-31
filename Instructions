@@ -8,7 +8,9 @@ Added the dockerfile as reference, needs to be evaluated
 
 
 ---
-For 3rd, we need to add these block of code whereever mongo is being used:
+We should not use init containers as it wont be viable for istio-proxy:
+ref: https://medium.com/@marko.luksa/delaying-application-start-until-sidecar-is-ready-2ec2d21a7b74
+For 3rd, we need to add these block of code whereever mongo is being used: 
 # note that {{ include "harnesscommon.dbconnection.mongoConnection" (dict "database" "harness" "context" $) }} wont work as $(MONGO_USER) is not resolved by some containers, we can discuss/explore this, it is not working in bash. might work in sh
 
 containers:
@@ -28,5 +30,5 @@ containers:
         exec:
           command:
           - until mongosh $MONGO_URI --eval "db.adminCommand('ping')"; do echo waiting for mongodb; sleep 2; done
-  - name: application
+  - name: rest-of-the-application
     image: my-application
